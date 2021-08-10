@@ -3,7 +3,7 @@ const questionSchema = new Schema({
 	question_id: Number,
 	product_id: Number,
 	question_body: String,
-	question_date: String | Date,
+	question_date: String,
 	question_helpfulness: Number,
 	reported: Boolean,
 	answers: {
