@@ -33,8 +33,6 @@ DROP SCHEMA IF EXISTS qa;
 
 CREATE SCHEMA IF NOT EXISTS qa;
 
--- DROP TABLE IF EXISTS qa.questions;
-
 CREATE TABLE IF NOT EXISTS qa.questions (
 	id INT PRIMARY KEY DEFAULT 0,
 	product_id INT NULL DEFAULT NULL,
@@ -51,8 +49,6 @@ CREATE TABLE IF NOT EXISTS qa.questions (
 --
 -- ---
 
--- DROP TABLE IF EXISTS qa.answers;
-
 CREATE TABLE IF NOT EXISTS qa.answers (
   id INT PRIMARY KEY,
   question_id INT NULL DEFAULT NULL,
@@ -68,8 +64,6 @@ CREATE TABLE IF NOT EXISTS qa.answers (
 -- Table 'QA_Photos'
 --
 -- ---
-
--- DROP TABLE IF EXISTS qa.qa_photos;
 
 CREATE TABLE IF NOT EXISTS qa.qa_photos (
   id INT PRIMARY KEY,
