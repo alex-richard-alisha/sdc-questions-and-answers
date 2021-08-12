@@ -9,7 +9,10 @@ const PORT = 3000;
 app.use(express.json());
 
 /* Questions List */
-app.get('/qa/questions', (req: Request, res: Response) => {});
+app.get('/qa/questions', (req: Request, res: Response) => {
+  console.log('url:', req.url);
+  res.status(200).send('pizza');
+});
 /* Answers List */
 app.get(
   '/qa/questions/:question_id/answers',
@@ -40,3 +43,5 @@ app.put('/qa/answers/:answer_id/report', (req: Request, res: Response) => {});
 app.listen(PORT, () => {
   console.log(`Server listening on Port:${PORT}`);
 });
+
+// export {};
