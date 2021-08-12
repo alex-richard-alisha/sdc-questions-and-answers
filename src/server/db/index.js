@@ -1,6 +1,8 @@
-const { Pool, Client } = require('pg');
+// const { Pool, Client } = require('pg');
+import { Pool, Client } from 'pg';
 
-const password = require('../config').pgPwd;
+// const password = require('../config').pgPwd;
+import { pgPwd as password } from '../../config';
 
 const connectionConfig = {
   user: 'postgres',
