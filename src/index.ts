@@ -1,9 +1,8 @@
 import express, { Request, Response } from 'express';
-import connection from './db';
 
+import { fixPageAndCount, composeQuery } from './utils';
+import { makeQuery } from './db/qa.services';
 import queries from './db/queries';
-
-import { validateQueryNumbers, composeQuery } from './utils';
 
 const app = express();
 
@@ -18,34 +17,28 @@ app.use(express.urlencoded({ extended: true }));
 
 /* Questions List */
 app.get('/qa/questions', async (req: Request, res: Response) => {
-  console.debug('req.url:', req.url);
-  let client;
-
   try {
+    console.debug('req.url:', req.url);
+
     const { product_id, count, page } = req.query;
 
-    const fixedCount = parseInt(count as string);
-    const fixedPage = parseInt(page as string);
-    const error = validateQueryNumbers(fixedCount, fixedPage);
+    const { fixedPage, fixedCount, error } = fixPageAndCount(
+      page as string,
+      count as string,
+    );
 
     if (error) {
       return res.status(400).send('Error: count and page must be numbers');
     }
 
-    const query = composeQuery(queries.joins.all, fixedCount, fixedPage);
-
-    console.debug('query:', query);
-
-    client = await connection.connect();
-
-    const { rows } = await client.query(query, [product_id]);
-
-    res.status(200).send(rows);
+    const result = await makeQuery(
+      composeQuery(queries.answers.byQuestionId, fixedCount, fixedPage),
+      [product_id as string],
+    );
+    return res.status(200).send(result);
   } catch (e) {
     console.error(e);
     res.status(500).send(e);
-  } finally {
-    client ? client.release() : null;
   }
 });
 
@@ -53,32 +46,26 @@ app.get('/qa/questions', async (req: Request, res: Response) => {
 app.get(
   '/qa/questions/:question_id/answers',
   async (req: Request, res: Response) => {
-    let client;
     try {
       const { question_id } = req.params;
       const { count, page } = req.query;
-      const fixedCount = parseInt(count as string);
-      const fixedPage = parseInt(page as string);
-      const error = validateQueryNumbers(fixedCount, fixedPage);
+      const { fixedPage, fixedCount, error } = fixPageAndCount(
+        page as string,
+        count as string,
+      );
 
       if (error) {
         return res.status(400).send('Error: count and page must be numbers');
       }
 
-      client = await connection.connect();
-
-      const query = composeQuery(
-        queries.answers.byQuestionId,
-        fixedCount,
-        fixedPage,
+      const result = await makeQuery(
+        composeQuery(queries.answers.byQuestionId, fixedCount, fixedPage),
+        [question_id],
       );
-
-      const { rows } = await client.query(query, [question_id]);
-      res.status(200).send(rows);
+      res.status(200).send(result);
     } catch (e) {
       console.error(e);
-    } finally {
-      client ? client.release() : null;
+      res.status(500).send(e);
     }
   },
 );

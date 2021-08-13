@@ -17,3 +17,20 @@ export const composeQuery = (
 ): string => {
   return `${baseQuery} LIMIT ${count} OFFSET ${(page - 1) * count};`;
 };
+
+interface PageCount {
+  fixedPage: number;
+  fixedCount: number;
+  error: Error | null;
+}
+
+export const fixPageAndCount = (page: string, count: string): PageCount => {
+  const fixedCount = parseInt(count);
+  const fixedPage = parseInt(page);
+  const error = validateQueryNumbers(fixedCount, fixedPage);
+  return {
+    fixedPage,
+    fixedCount,
+    error,
+  };
+};

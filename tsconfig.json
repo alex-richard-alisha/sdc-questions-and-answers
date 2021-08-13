@@ -72,7 +72,7 @@
 		"./src/**/*"
 	],
 	"exclude": [
-		"./src/db",
+		"./src/db/*.js",
 		"./config",
 		"./built/*"
 	],
