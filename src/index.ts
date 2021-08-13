@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import connection from './db';
 
-import { questions, answers, photos, joins } from './db/queries';
+import queries from './db/queries';
 
 import { validateQueryNumbers, composeQuery } from './utils';
 
@@ -32,7 +32,7 @@ app.get('/qa/questions', async (req: Request, res: Response) => {
       return res.status(400).send('Error: count and page must be numbers');
     }
 
-    const query = composeQuery(joins.qap, fixedCount, fixedPage);
+    const query = composeQuery(queries.joins.all, fixedCount, fixedPage);
 
     console.debug('query:', query);
 
@@ -67,7 +67,11 @@ app.get(
 
       client = await connection.connect();
 
-      const query = composeQuery(answers.byQuestionId, fixedCount, fixedPage);
+      const query = composeQuery(
+        queries.answers.byQuestionId,
+        fixedCount,
+        fixedPage,
+      );
 
       const { rows } = await client.query(query, [question_id]);
       res.status(200).send(rows);
