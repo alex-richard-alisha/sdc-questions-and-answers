@@ -40,9 +40,11 @@ CREATE TABLE IF NOT EXISTS qa.questions (
 	question_date BIGINT NULL DEFAULT NULL,
 	asker_name TEXT NULL DEFAULT NULL,
 	asker_email TEXT NULL DEFAULT NULL,
-	reported INT NULL DEFAULT NULL,
+	reported BOOLEAN NULL DEFAULT NULL,
 	question_helpfulness INT NULL DEFAULT NULL
 );
+
+-- JJ Create qa=# create table questions (id serial primary key, product_id int not null, question_body varchar(1000) not null, question_date bigint not null, asker_name varchar(60) not null, asker_email varchar(60) not null, reported boolean, helpful int);
 
 -- ---
 -- Table 'Answers'
@@ -53,11 +55,11 @@ CREATE TABLE IF NOT EXISTS qa.answers (
   id INT PRIMARY KEY,
   question_id INT NULL DEFAULT NULL,
   body TEXT NULL DEFAULT NULL,
-  date_written BIGINT NULL DEFAULT NULL,
+  answer_date BIGINT NULL DEFAULT NULL,
   answerer_name TEXT NULL DEFAULT NULL,
 	answerer_email TEXT NULL DEFAULT NULL,
 	reported BOOLEAN NULL DEFAULT NULL,
-  helpful INT NULL DEFAULT NULL
+  helpfulness INT NULL DEFAULT NULL
 );
 
 -- ---
@@ -77,14 +79,6 @@ CREATE TABLE IF NOT EXISTS qa.qa_photos (
 
 ALTER TABLE qa.answers ADD FOREIGN KEY (question_id) REFERENCES qa.questions (id) ON DELETE CASCADE;
 ALTER TABLE qa.qa_photos ADD FOREIGN KEY (answer_id) REFERENCES qa.answers (id) ON DELETE CASCADE;
-
--- ---
--- COPY COMMANDS
--- ---
-
--- COPY qa.questions (id, product_id, question_body, question_date, asker_name, asker_email, reported, question_helpfulness) FROM '/mnt/d/ProgrammingProjects/sdc-questions-and-answers/data/questions.csv' DELIMITER ',' CSV HEADER;
--- COPY qa.answers (id, question_id, body, date_written, answerer_name, answerer_email, reported, helpful) FROM '/mnt/d/ProgrammingProjects/sdc-questions-and-answers/data/answers.csv' DELIMITER ',' CSV HEADER;
--- COPY qa.qa_photos(id, answer_id, photo_url) FROM '/mnt/d/ProgrammingProjects/sdc-questions-and-answers/data/answers_photos.csv' DELIMITER ',' CSV HEADER;
 
 -- ---
 -- Table Properties
