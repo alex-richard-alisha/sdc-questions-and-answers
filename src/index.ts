@@ -3,6 +3,8 @@ import connection from './db';
 
 import { questions, answers, photos, joins } from './db/queries';
 
+import { validateQueryNumbers, composeQuery } from './utils';
+
 const app = express();
 
 const PORT = 3000;
@@ -10,26 +12,6 @@ const PORT = 3000;
 // * Every route will need a postgres connection, and will release it at the end
 
 /* MIDDLEWARE */
-
-// * Validation function returns empty|null if valid, error if invalid; const error = validate, if error
-const validateQueryNumbers = (...args: number[]) => {
-  for (let i = 0; i < args.length; i++) {
-    if (isNaN(args[i])) {
-      const err = `Invalid: ${args[i]} must be a number`;
-      console.error(err);
-      return new Error(err);
-    }
-  }
-  return null;
-};
-
-const composeQuery = (
-  baseQuery: string,
-  count: number,
-  page: number,
-): string => {
-  return `${baseQuery} LIMIT ${count} OFFSET ${(page - 1) * count};`;
-};
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
