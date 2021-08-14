@@ -37,8 +37,8 @@ interface PageCount {
 }
 
 export const fixPageAndCount = (page: string, count: string): PageCount => {
-  const fixedCount = parseInt(count);
-  const fixedPage = parseInt(page);
+  const fixedCount = parseInt(count) || 5;
+  const fixedPage = parseInt(page) || 1;
   const error = validateRequestNumbers(fixedCount, fixedPage);
   return {
     fixedPage,
