@@ -2,7 +2,7 @@
 export const validateRequestNumbers = (...args: number[]): Error | null => {
   for (let i = 0; i < args.length; i++) {
     if (isNaN(args[i])) {
-      const err = `Invalid: ${args[i]} must be a number`;
+      const err = `Invalid: argument must be a number, but is ${args[i]} instead`;
       console.error(err);
       return new Error(err);
     }

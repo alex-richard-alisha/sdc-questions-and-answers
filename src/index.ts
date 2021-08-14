@@ -141,20 +141,64 @@ app.post(
 /* Mark a Question as Helpful */
 app.put(
   '/qa/questions/:question_id/helpful',
-  (req: Request, res: Response) => {},
+  async (req: Request, res: Response) => {
+    try {
+      const { question_id } = req.params;
+      const result = await makeQuery(queries.questions.markHelpful, [
+        question_id,
+      ]);
+      return res.status(204).end();
+    } catch (e) {
+      console.error(e);
+      res.status(500).send(e);
+    }
+  },
 );
 
 /* Report a Question */
 app.put(
   '/qa/questions/:question_id/report',
-  (req: Request, res: Response) => {},
+  async (req: Request, res: Response) => {
+    try {
+      const { question_id } = req.params;
+      const result = await makeQuery(queries.questions.report, [question_id]);
+      return res.status(204).end();
+    } catch (e) {
+      console.error(e);
+      res.status(500).send(e);
+    }
+  },
 );
 
 /* Mark an Answer as Helpful */
-app.put('/qa/answers/:answer_id/helpful', (req: Request, res: Response) => {});
+app.put(
+  '/qa/answers/:answer_id/helpful',
+  async (req: Request, res: Response) => {
+    try {
+      const { answer_id } = req.params;
+      const result = await makeQuery(queries.answers.markHelpful, [answer_id]);
+      return res.status(204).end();
+    } catch (e) {
+      console.error(e);
+      res.status(500).send(e);
+    }
+  },
+);
 
 /* Report an Answer */
-app.put('/qa/answers/:answer_id/report', (req: Request, res: Response) => {});
+app.put(
+  '/qa/answers/:answer_id/report',
+  async (req: Request, res: Response) => {
+    try {
+      const { answer_id } = req.params;
+      const result = await makeQuery(queries.answers.report, [answer_id]);
+      return res.status(204).end();
+    } catch (e) {
+      console.error(e);
+      res.status(500).send(e);
+    }
+  },
+);
 
 app.listen(PORT, () => {
   console.log(`Server listening on Port:${PORT}`);
