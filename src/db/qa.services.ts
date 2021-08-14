@@ -1,7 +1,6 @@
 import connection from './index';
 
 export const makeQuery = async (query: string, queryParams: string[]) => {
-  // * Q: Try-Catch here?
   try {
     const client = await connection.connect();
 
