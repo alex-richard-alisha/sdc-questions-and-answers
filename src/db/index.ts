@@ -1,9 +1,5 @@
 import { Pool, PoolClient } from 'pg';
 
-// import pg from 'pg';
-
-// pg.connect
-
 const connection = new Pool({
   user: 'postgres',
   host: 'localhost', // * This will inevitably change
@@ -14,7 +10,7 @@ const connection = new Pool({
 });
 
 connection.on('connect', (client: PoolClient) => {
-  console.log(`Client connect`);
+  console.log(`Client connected`);
 });
 
 connection.on('acquire', (client: PoolClient) => {
