@@ -7,7 +7,7 @@ import { Pool, PoolClient } from 'pg';
 const connection = new Pool({
   user: 'postgres',
   host: 'localhost', // * This will inevitably change
-  database: 'questions-and-answers',
+  database: 'questions_and_answers',
   password: 'postgres',
   port: 5432,
 	max: 50,

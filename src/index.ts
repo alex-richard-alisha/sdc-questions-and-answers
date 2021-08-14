@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 
-import { fixPageAndCount, composeQuery } from './utils';
-import { makeQuery } from './db/qa.services';
+import { fixPageAndCount, composeQuery, validateRequestStrings } from './utils';
+import { makeQuery, insertPhotos } from './db/qa.services';
 import queries from './db/queries';
 
 const app = express();
@@ -71,12 +71,71 @@ app.get(
 );
 
 /* Add a Question */
-app.post('/qa/questions', (req: Request, res: Response) => {});
+app.post('/qa/questions', async (req: Request, res: Response) => {
+  try {
+    const d = new Date().getTime();
+    const { body, name, email, product_id } = req.body;
+    const error = validateRequestStrings(body, name, email);
+
+    if (error) {
+      return res
+        .status(400)
+        .send('Error: question body, user name, and email must be strings');
+    }
+
+    const result = await makeQuery(queries.questions.create, [
+      product_id,
+      body,
+      d,
+      name,
+      email,
+    ]);
+    console.log('qpostRes:', result);
+    return res.status(201).send(result);
+  } catch (e) {
+    console.error(e);
+    res.status(500).send(e);
+  }
+});
 
 /* Add an Answer */
 app.post(
   '/qa/questions/:question_id/answers',
-  (req: Request, res: Response) => {},
+  async (req: Request, res: Response) => {
+    try {
+      const { question_id } = req.params;
+      const { body, name, email, photos } = req.body;
+
+      const stringError = validateRequestStrings(body, name, email);
+      // TODO photo error validation
+
+      if (stringError) {
+        return res
+          .status(400)
+          .send('Error: question body, user name, and email must be strings');
+      }
+
+      const result = await makeQuery(queries.answers.create, [
+        question_id,
+        body,
+        new Date().getTime(),
+        name,
+        email,
+      ]);
+
+      const answerId = result[0].id;
+
+      const photoPostRes = await insertPhotos(
+        queries.photos.create,
+        answerId,
+        photos,
+      );
+      res.status(200).send();
+    } catch (e) {
+      console.error(e);
+      res.status(500).send(e);
+    }
+  },
 );
 
 /* Mark a Question as Helpful */
