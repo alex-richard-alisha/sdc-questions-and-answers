@@ -133,7 +133,7 @@ app.post(
 
       const answerId = result[0].id;
 
-      const photoPostRes = await insertPhotos(
+      await insertPhotos(
         queries.photos.create,
         answerId,
         photos,
@@ -152,7 +152,7 @@ app.put(
   async (req: Request, res: Response) => {
     try {
       const { question_id } = req.params;
-      const result = await makeQuery(queries.questions.markHelpful, [
+      await makeQuery(queries.questions.markHelpful, [
         question_id,
       ]);
       return res.status(204).end();
@@ -169,7 +169,7 @@ app.put(
   async (req: Request, res: Response) => {
     try {
       const { question_id } = req.params;
-      const result = await makeQuery(queries.questions.report, [question_id]);
+      await makeQuery(queries.questions.report, [question_id]);
       return res.status(204).end();
     } catch (e) {
       console.error(e);
@@ -184,7 +184,7 @@ app.put(
   async (req: Request, res: Response) => {
     try {
       const { answer_id } = req.params;
-      const result = await makeQuery(queries.answers.markHelpful, [answer_id]);
+      await makeQuery(queries.answers.markHelpful, [answer_id]);
       return res.status(204).end();
     } catch (e) {
       console.error(e);
@@ -199,7 +199,7 @@ app.put(
   async (req: Request, res: Response) => {
     try {
       const { answer_id } = req.params;
-      const result = await makeQuery(queries.answers.report, [answer_id]);
+      await makeQuery(queries.answers.report, [answer_id]);
       return res.status(204).end();
     } catch (e) {
       console.error(e);
