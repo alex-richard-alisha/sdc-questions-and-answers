@@ -31,12 +31,13 @@ app.get('/qa/questions', async (req: Request, res: Response) => {
       return res.status(400).send('Error: count and page must be numbers');
     }
 
-    const result = await makeQuery(
-      composeQuery(queries.answers.byQuestionId, fixedCount, fixedPage),
+    const results = await makeQuery(
+      composeQuery(queries.aggregates.all, fixedCount, fixedPage),
       [product_id as string],
     );
-    return res.status(200).send(result);
+    return res.status(200).send({ product_id, results });
   } catch (e) {
+    console.log('errors are bad, mmmk');
     console.error(e);
     res.status(500).send(e);
   }
@@ -58,11 +59,18 @@ app.get(
         return res.status(400).send('Error: count and page must be numbers');
       }
 
-      const result = await makeQuery(
-        composeQuery(queries.answers.byQuestionId, fixedCount, fixedPage),
+      const results = await makeQuery(
+        composeQuery(queries.aggregates.answers, fixedCount, fixedPage),
         [question_id],
       );
-      res.status(200).send(result);
+      res
+        .status(200)
+        .send({
+          question: question_id,
+          page: fixedPage,
+          count: fixedCount,
+          results,
+        });
     } catch (e) {
       console.error(e);
       res.status(500).send(e);

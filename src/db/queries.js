@@ -30,7 +30,20 @@ export default {
     // * Selects all questions, answers, and photos
     all: 'SELECT q.id AS question_id, q.question_body, q.question_date, q.asker_name, q.question_helpfulness, q.reported, a.id AS answer_id, a.answer_body, a.date_written AS answer_date, a.answerer_name, a.answer_helpfulness, p.photo_url, p.answer_id FROM qa.questions AS q RIGHT JOIN qa.answers AS a ON q.id=a.question_id RIGHT JOIN qa.qa_photos as p ON a.id=p.answer_id WHERE q.product_id=($1) AND q.reported=0',
   },
-  aggs: {
-    qa: 'SELECT q.id',
+  aggregates: {
+    all: `SELECT q.id as question_id, q.question_body, q.question_date, q.asker_name, q.question_helpfulness, q.reported,
+				(SELECT coalesce(jsonb_object_agg(id, answer), '{}') FROM
+					(SELECT a.id, a.answer_body, a.answer_date, a.answerer_name, a.answer_helpfulness,
+						(SELECT coalesce(jsonb_agg(photo), '[]') FROM
+							(SELECT p.photo_url FROM qa.qa_photos AS p WHERE p.answer_id=a.id)
+						photo)
+						AS photos FROM qa.answers AS a WHERE a.question_id=q.id)
+					answer) AS
+				answers FROM qa.questions AS q WHERE q.product_id=$1`,
+    answers: `SELECT a.id, a.answer_body, a.answer_date, a.answerer_name, a.answer_helpfulness,
+								(SELECT coalesce(jsonb_agg(photo), '[]') FROM
+									(SELECT p.photo_url FROM qa.qa_photos AS p WHERE p.answer_id=a.id)
+								photo)
+								AS photos FROM qa.answers AS a WHERE a.question_id=$1`,
   },
 };

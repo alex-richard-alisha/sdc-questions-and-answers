@@ -60,6 +60,7 @@ CREATE TABLE IF NOT EXISTS qa.answers (
 
 INSERT INTO qa.answers (question_id, answer_body, answer_date, answerer_name, answerer_email, reported, answer_helpfulness) SELECT question_id, answer_body, answer_date, answerer_name, answerer_email, reported, answer_helpfulness FROM temp_answers;
 
+
 DROP TABLE temp_answers;
 CREATE TABLE IF NOT EXISTS temp_photos (
 	id INT PRIMARY KEY,
@@ -79,4 +80,24 @@ INSERT INTO qa.qa_photos (answer_id, photo_url) SELECT answer_id, photo_url FROM
 
 DROP TABLE temp_photos;
 
+select row_to_json(art) as artists
+from(
+  select a.id, a.name,
+  (select json_agg(alb)
+  from (
+    select * from albums where artist_id = a.id
+  ) alb
+) as albums
+from artists as a) art;
 
+-- select row_to_json(art) as artists
+-- from(
+--   select a.id, a.name,
+--   (select json_agg(alb)
+--   from (
+--     select * from albums where artist_id = a.id
+--   ) alb
+-- ) as albums
+-- from artists as a) art;
+
+-- SELECT jsonb_object_agg(question) FROM (SELECT q.id as question_id, q.question_body, q.question_date, q.asker_name, q.question_helpfulness, q.reported, (SELECT jsonb_object_agg(answer_id) FROM (SELECT a.id as answer_id, a.answer_body, a.answer_date, a.answerer_name, a.answer_helpfulness, (SELECT array_agg(photo) FROM (SELECT p.photo_url FROM qa.qa_photos AS p WHERE p.answer_id=a.id) photo) as photos FROM qa.answers AS a WHERE a.question_id=question_id) answer_id) as answers) question FROM qa.questions AS q WHERE q.product_id=$1;
