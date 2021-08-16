@@ -148,7 +148,7 @@ app.put(
   async (req: Request, res: Response) => {
     try {
       const { question_id } = req.params;
-      await makeQuery(queries.questions.markHelpful, [question_id]);
+      await makeQuery<[]>(queries.questions.markHelpful, [question_id]);
       return res.status(204).end();
     } catch (e) {
       console.error(e);
@@ -163,7 +163,7 @@ app.put(
   async (req: Request, res: Response) => {
     try {
       const { question_id } = req.params;
-      await makeQuery(queries.questions.report, [question_id]);
+      await makeQuery<[]>(queries.questions.report, [question_id]);
       return res.status(204).end();
     } catch (e) {
       console.error(e);
@@ -178,7 +178,7 @@ app.put(
   async (req: Request, res: Response) => {
     try {
       const { answer_id } = req.params;
-      await makeQuery(queries.answers.markHelpful, [answer_id]);
+      await makeQuery<[]>(queries.answers.markHelpful, [answer_id]);
       return res.status(204).end();
     } catch (e) {
       console.error(e);
@@ -193,7 +193,7 @@ app.put(
   async (req: Request, res: Response) => {
     try {
       const { answer_id } = req.params;
-      await makeQuery(queries.answers.report, [answer_id]);
+      await makeQuery<[]>(queries.answers.report, [answer_id]);
       return res.status(204).end();
     } catch (e) {
       console.error(e);

@@ -11,8 +11,6 @@ export const makeQuery = async function <T>(
 
     const { rows } = await client.query(query, [...queryParams]);
 
-    console.log('rows:', rows);
-
     client.release();
     return rows;
   } catch (e) {

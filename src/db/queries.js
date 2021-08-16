@@ -4,14 +4,14 @@ export default {
       'INSERT INTO qa.questions (product_id, question_body, question_date, asker_name, asker_email, reported, question_helpfulness) VALUES ($1, $2, $3, $4, $5, false, 0)',
     markHelpful:
       'UPDATE qa.questions SET question_helpfulness=question_helpfulness+1 WHERE id=$1',
-    report: 'UPDATE qa.questions SET reported=true WHERE q.id=$1',
+    report: 'UPDATE qa.questions SET reported=true WHERE id=$1',
   },
   answers: {
     create:
       'INSERT INTO qa.answers (question_id, answer_body, answer_date, answerer_name, answerer_email, reported, answer_helpfulness) VALUES ($1, $2, $3, $4, $5, false, 0) RETURNING qa.answers.id',
     markHelpful:
       'UPDATE qa.answers SET answer_helpfulness=answer_helpfulness+1 WHERE id=$1',
-    report: 'UPDATE qa.answers SET reported=true WHERE q.id=$1',
+    report: 'UPDATE qa.answers SET reported=true WHERE id=$1',
   },
   photos: {
     create: 'INSERT INTO qa.qa_photos (answer_id, photo_url) VALUES ($1, $2)',
