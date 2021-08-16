@@ -35,13 +35,13 @@ CREATE SCHEMA IF NOT EXISTS qa;
 
 CREATE TABLE IF NOT EXISTS qa.questions (
 	id SERIAL PRIMARY KEY,
-	product_id INT NULL DEFAULT NULL,
-	question_body TEXT NULL DEFAULT NULL,
-	question_date BIGINT NULL DEFAULT NULL,
-	asker_name TEXT NULL DEFAULT NULL,
-	asker_email TEXT NULL DEFAULT NULL,
-	reported BOOLEAN NULL DEFAULT NULL,
-	question_helpfulness INT NULL DEFAULT NULL
+	product_id INT NOT NULL,
+	question_body TEXT NOT NULL,
+	question_date DATETIME NOT NULL DEFAULT NOW(),
+	asker_name TEXT NOT NULL,
+	asker_email TEXT NOT NULL,
+	reported BOOLEAN NOT NULL,
+	question_helpfulness INT NOT NULL
 );
 
 -- JJ Create qa=# create table questions (id serial primary key, product_id int not null, question_body varchar(1000) not null, question_date bigint not null, asker_name varchar(60) not null, asker_email varchar(60) not null, reported boolean, helpful int);
@@ -53,13 +53,13 @@ CREATE TABLE IF NOT EXISTS qa.questions (
 
 CREATE TABLE IF NOT EXISTS qa.answers (
   id SERIAL PRIMARY KEY,
-  question_id INT NULL DEFAULT NULL,
-  answer_body TEXT NULL DEFAULT NULL,
-  answer_date BIGINT NULL DEFAULT NULL,
-  answerer_name TEXT NULL DEFAULT NULL,
-	answerer_email TEXT NULL DEFAULT NULL,
-	reported BOOLEAN NULL DEFAULT NULL,
-  answer_helpfulness INT NULL DEFAULT NULL
+  question_id INT NOT NULL,
+  answer_body TEXT NOT NULL,
+  answer_date DATETIME NOT NULL DEFAULT NOW(),
+  answerer_name TEXT NOT NULL,
+	answerer_email TEXT NOT NULL,
+	reported BOOLEAN NOT NULL,
+  answer_helpfulness INT NOT NULL
 );
 
 -- ---
@@ -69,8 +69,8 @@ CREATE TABLE IF NOT EXISTS qa.answers (
 
 CREATE TABLE IF NOT EXISTS qa.qa_photos (
   id SERIAL PRIMARY KEY,
-  answer_id INT NULL DEFAULT NULL,
-  photo_url TEXT NULL DEFAULT NULL
+  answer_id INT NOT NULL,
+  photo_url TEXT NOT NULL
 );
 
 -- ---
