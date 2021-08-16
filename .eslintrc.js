@@ -2,6 +2,9 @@ module.exports = {
   env: {
     'jest/globals': true,
     browser: true,
+    commonjs: true,
+    es2021: true,
+    node: true,
   },
   extends: ['airbnb', 'airbnb/hooks'],
   parserOptions: {
@@ -28,6 +31,7 @@ module.exports = {
     'jsx-a11y/no-static-element-interactions': 1,
     'no-unused-vars': 1,
     'no-void': 0,
+    'no-tabs': 0,
   },
   settings: {},
 };
