@@ -10,6 +10,8 @@ import {
   reportQuestion,
   markAnswerHelpful,
   reportAnswer,
+  postQuestion,
+  postAnswer,
 } from './db/qa.services';
 import queries from './db/queries';
 import {
@@ -112,6 +114,8 @@ app.post('/qa/questions', async (req: Request, res: Response) => {
         .send('Error: question body, user name, and email must be strings');
     }
 
+    await postQuestion(product_id, question_body, name, email);
+
     return res.status(201).end();
   } catch (e) {
     console.error(`Could not post question, product_id=${product_id}`, e);
@@ -140,17 +144,9 @@ app.post(
           .send('Error: question body, user name, and email must be strings');
       }
 
-      const result = await makeQuery<AnswerPostResult>(queries.answers.create, [
-        question_id,
-        answer_body,
-        new Date().getTime(),
-        name,
-        email,
-      ]);
+      const result = await postAnswer(question_id, answer_body, name, email);
 
-      const answerId = result[0].id;
-
-      await insertPhotos(queries.photos.create, answerId, photos);
+      await insertPhotos(queries.photos.create, result.id, photos);
       res.status(200).send();
     } catch (e) {
       console.error(e);

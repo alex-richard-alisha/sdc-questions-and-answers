@@ -4,6 +4,7 @@ import {
   AnswersResult,
   AnswerQueryResult,
   QuestionsResult,
+  AnswerPostResult,
 } from 'src/db/queryTypes';
 import {
   fixPageAndCount,
@@ -75,17 +76,30 @@ export const getAnswersByQuestionId = async (
 export const postQuestion = async (
   product_id: string,
   body: string,
-  d: number,
   name: string,
   email: string,
 ): Promise<void[]> => {
   return await makeQuery<void>(queries.questions.create, [
     product_id,
     body,
-    d,
     name,
     email,
   ]);
+};
+
+export const postAnswer = async (
+  question_id: string,
+  body: string,
+  name: string,
+  email: string,
+): Promise<AnswerPostResult> => {
+  const result = await makeQuery<AnswerPostResult>(queries.answers.create, [
+    question_id,
+    body,
+    name,
+    email,
+  ]);
+  return result[0];
 };
 
 export const markQuestionHelpful = async (
