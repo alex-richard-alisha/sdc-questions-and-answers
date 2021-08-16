@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 /* Questions List */
 app.get('/qa/questions', async (req: Request, res: Response) => {
   try {
-    console.debug('req.url:', req.url);
+    // console.debug('req.url:', req.url);
 
     const { product_id, count, page } = req.query;
 
@@ -63,14 +63,12 @@ app.get(
         composeQuery(queries.aggregates.answers, fixedCount, fixedPage),
         [question_id],
       );
-      res
-        .status(200)
-        .send({
-          question: question_id,
-          page: fixedPage,
-          count: fixedCount,
-          results,
-        });
+      res.status(200).send({
+        question: question_id,
+        page: fixedPage,
+        count: fixedCount,
+        results,
+      });
     } catch (e) {
       console.error(e);
       res.status(500).send(e);
@@ -133,11 +131,7 @@ app.post(
 
       const answerId = result[0].id;
 
-      await insertPhotos(
-        queries.photos.create,
-        answerId,
-        photos,
-      );
+      await insertPhotos(queries.photos.create, answerId, photos);
       res.status(200).send();
     } catch (e) {
       console.error(e);
@@ -152,9 +146,7 @@ app.put(
   async (req: Request, res: Response) => {
     try {
       const { question_id } = req.params;
-      await makeQuery(queries.questions.markHelpful, [
-        question_id,
-      ]);
+      await makeQuery(queries.questions.markHelpful, [question_id]);
       return res.status(204).end();
     } catch (e) {
       console.error(e);
