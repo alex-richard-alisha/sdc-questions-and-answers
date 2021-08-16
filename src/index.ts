@@ -1,4 +1,7 @@
 import express, { Request, Response } from 'express';
+import morgan from 'morgan';
+import fs from 'fs';
+import path from 'path';
 
 import { fixPageAndCount, composeQuery, validateRequestStrings } from './utils';
 import { makeQuery, insertPhotos } from './db/qa.services';
@@ -12,14 +15,20 @@ const PORT = 3000;
 
 /* MIDDLEWARE */
 
+let logStream = fs.createWriteStream(
+  path.join(__dirname, '..', 'logs', 'file.log'),
+  {
+    flags: 'a',
+  },
+);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(morgan('common', { stream: logStream }));
 
 /* Questions List */
 app.get('/qa/questions', async (req: Request, res: Response) => {
   try {
-    // console.debug('req.url:', req.url);
-
     const { product_id, count, page } = req.query;
 
     const { fixedPage, fixedCount, error } = fixPageAndCount(
@@ -37,7 +46,6 @@ app.get('/qa/questions', async (req: Request, res: Response) => {
     );
     return res.status(200).send({ product_id, results });
   } catch (e) {
-    console.log('errors are bad, mmmk');
     console.error(e);
     res.status(500).send(e);
   }
@@ -96,7 +104,6 @@ app.post('/qa/questions', async (req: Request, res: Response) => {
       name,
       email,
     ]);
-    console.log('qpostRes:', result);
     return res.status(201).send(result);
   } catch (e) {
     console.error(e);
@@ -129,7 +136,9 @@ app.post(
         email,
       ]);
 
-      const answerId = result[0].id;
+      console.log('result:', result);
+
+      const answerId = (result as any)[0].id; // TODO: FIX ME
 
       await insertPhotos(queries.photos.create, answerId, photos);
       res.status(200).send();
