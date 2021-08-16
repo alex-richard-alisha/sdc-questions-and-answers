@@ -3,6 +3,11 @@ import express, { Request, Response } from 'express';
 import { fixPageAndCount, composeQuery, validateRequestStrings } from './utils';
 import { makeQuery, insertPhotos } from './db/qa.services';
 import queries from './db/queries';
+import {
+  QuestionQueryResult,
+  AnswerQueryResult,
+  AnswerPostResult,
+} from './db/queryTypes';
 
 const app = express();
 
@@ -18,8 +23,6 @@ app.use(express.urlencoded({ extended: true }));
 /* Questions List */
 app.get('/qa/questions', async (req: Request, res: Response) => {
   try {
-    // console.debug('req.url:', req.url);
-
     const { product_id, count, page } = req.query;
 
     const { fixedPage, fixedCount, error } = fixPageAndCount(
@@ -31,13 +34,12 @@ app.get('/qa/questions', async (req: Request, res: Response) => {
       return res.status(400).send('Error: count and page must be numbers');
     }
 
-    const results = await makeQuery(
+    const results = await makeQuery<QuestionQueryResult>(
       composeQuery(queries.aggregates.all, fixedCount, fixedPage),
       [product_id as string],
     );
     return res.status(200).send({ product_id, results });
   } catch (e) {
-    console.log('errors are bad, mmmk');
     console.error(e);
     res.status(500).send(e);
   }
@@ -59,10 +61,11 @@ app.get(
         return res.status(400).send('Error: count and page must be numbers');
       }
 
-      const results = await makeQuery(
+      const results = await makeQuery<AnswerQueryResult>(
         composeQuery(queries.aggregates.answers, fixedCount, fixedPage),
         [question_id],
       );
+
       res.status(200).send({
         question: question_id,
         page: fixedPage,
@@ -89,15 +92,15 @@ app.post('/qa/questions', async (req: Request, res: Response) => {
         .send('Error: question body, user name, and email must be strings');
     }
 
-    const result = await makeQuery(queries.questions.create, [
+    await makeQuery<[]>(queries.questions.create, [
       product_id,
       body,
       d,
       name,
       email,
     ]);
-    console.log('qpostRes:', result);
-    return res.status(201).send(result);
+
+    return res.status(201).end();
   } catch (e) {
     console.error(e);
     res.status(500).send(e);
@@ -121,15 +124,14 @@ app.post(
           .send('Error: question body, user name, and email must be strings');
       }
 
-      const result = await makeQuery(queries.answers.create, [
-        question_id,
-        body,
-        new Date().getTime(),
-        name,
-        email,
-      ]);
+      const result = await makeQuery<AnswerPostResult[]>(
+        queries.answers.create,
+        [question_id, body, new Date().getTime(), name, email],
+      );
 
-      const answerId = result[0].id;
+      console.log('result:', result);
+
+      const answerId = (result as any)[0].id;
 
       await insertPhotos(queries.photos.create, answerId, photos);
       res.status(200).send();

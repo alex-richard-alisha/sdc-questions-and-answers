@@ -1,0 +1,19 @@
+[0mGET /qa/questions/1/answers?page=1&count=5 [32m200[0m 50.610 ms - 48[0m
+[0mGET /qa/questions/1/answers?page=1&count=5 [32m200[0m 50.524 ms - 48[0m
+[0mGET /qa/questions/1/answers?page=1&count=5 [32m200[0m 16.864 ms - 48[0m
+[0mGET /qa/questions/1/answers?page=1&count=5 [32m200[0m 31.831 ms - 48[0m
+::1 - - [16/Aug/2021:16:47:49 +0000] "GET /qa/questions/1/answers?page=1&count=5 HTTP/1.1" 200 48
+::1 - - [16/Aug/2021:16:47:52 +0000] "GET /qa/questions?count=5&product_id=1&page=1 HTTP/1.1" 200 31
+::1 - - [16/Aug/2021:16:48:13 +0000] "GET /qa/questions?count=5&product_id=1&page=1 HTTP/1.1" 200 31
+::1 - - [16/Aug/2021:16:48:21 +0000] "GET /qa/questions?count=5&product_id=1&page=1 HTTP/1.1" 200 31
+::1 - - [16/Aug/2021:16:48:31 +0000] "GET /qa/questions?count=5&product_id=1&page=1 HTTP/1.1" 200 31
+::1 - - [16/Aug/2021:16:50:34 +0000] "GET /qa/questions/1/answers?page=1&count=5 HTTP/1.1" 200 48
+::1 - - [16/Aug/2021:16:55:25 +0000] "GET /qa/questions?count=5&product_id=1&page=1 HTTP/1.1" 200 31
+::1 - - [16/Aug/2021:16:55:56 +0000] "GET /qa/questions?count=5&product_id=1&page=1 HTTP/1.1" 200 31
+::1 - - [16/Aug/2021:16:58:02 +0000] "GET /qa/questions?count=5&product_id=1&page=1 HTTP/1.1" 200 31
+::1 - - [16/Aug/2021:16:58:59 +0000] "GET /qa/questions?count=5&product_id=1&page=1 HTTP/1.1" 200 31
+::1 - - [16/Aug/2021:16:59:05 +0000] "GET /qa/questions/1/answers?page=1&count=5 HTTP/1.1" 200 48
+::1 - - [16/Aug/2021:17:00:22 +0000] "GET /qa/questions/1/answers?page=1&count=5 HTTP/1.1" 200 48
+::1 - - [16/Aug/2021:17:09:11 +0000] "GET /qa/questions/1/answers?page=1&count=5 HTTP/1.1" 200 1262
+::1 - - [16/Aug/2021:17:09:18 +0000] "GET /qa/questions?count=5&product_id=1&page=1 HTTP/1.1" 200 3228
+::1 - - [16/Aug/2021:17:44:04 +0000] "GET /qa/questions?count=5&product_id=1&page=1 HTTP/1.1" 200 3228

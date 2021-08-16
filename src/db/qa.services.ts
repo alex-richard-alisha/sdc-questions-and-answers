@@ -1,12 +1,17 @@
 import connection from './index';
 
-export const makeQuery = async (query: string, queryParams: string[]) => {
+export const makeQuery = async function <T>(
+  query: string,
+  queryParams: string[],
+): Promise<T[]> {
   try {
     const client = await connection.connect();
 
     console.log('making query:', query);
 
     const { rows } = await client.query(query, [...queryParams]);
+
+    console.log('rows:', rows);
 
     client.release();
     return rows;

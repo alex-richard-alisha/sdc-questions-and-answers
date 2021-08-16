@@ -1,7 +1,7 @@
 export default {
   questions: {
     create:
-      'INSERT INTO qa.questions (product_id, question_body, question_date, asker_name, asker_email, reported, question_helpfulness) VALUES ($1, $2, $3, $4, $5, 0, 0)',
+      'INSERT INTO qa.questions (product_id, question_body, question_date, asker_name, asker_email, reported, question_helpfulness) VALUES ($1, $2, $3, $4, $5, false, 0)',
     markHelpful:
       'UPDATE qa.questions SET question_helpfulness=question_helpfulness+1 WHERE id=$1',
     report: 'UPDATE qa.questions SET reported=true WHERE q.id=$1',
