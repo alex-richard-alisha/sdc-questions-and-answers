@@ -1,8 +1,7 @@
 import express, { Request, Response } from 'express';
 
-import { fixPageAndCount, composeQuery, validateRequestStrings } from './utils';
+import { fixPageAndCount, validateRequestStrings } from './utils';
 import {
-  makeQuery,
   insertPhotos,
   getQuestionsByProductId,
   getAnswersByQuestionId,
@@ -15,9 +14,6 @@ import {
 } from './db/qa.services';
 import queries from './db/queries';
 import {
-  QuestionQueryResult,
-  AnswerQueryResult,
-  AnswerPostResult,
   CreateQuestionParams,
   GetQuestionsParams,
   GetAnswersParams,
@@ -32,8 +28,6 @@ import {
 const app = express();
 
 const PORT = 3000;
-
-// * Every route will need a postgres connection, and will release it at the end
 
 /* MIDDLEWARE */
 

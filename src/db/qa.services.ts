@@ -6,11 +6,7 @@ import {
   QuestionsResult,
   AnswerPostResult,
 } from 'src/db/queryTypes';
-import {
-  fixPageAndCount,
-  composeQuery,
-  validateRequestStrings,
-} from '../utils';
+import { composeQuery } from '../utils';
 import queries from '../db/queries';
 
 export const makeQuery = async function <T>(
