@@ -4,3 +4,4 @@ node_modules
 /coverage
 /config/index.js
 /logs/*
+/scripts/docker/data

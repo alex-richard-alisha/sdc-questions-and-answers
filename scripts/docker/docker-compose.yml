@@ -1,0 +1,12 @@
+version: "3.9"
+services:
+  postgres:
+    image: sdc-postgres
+    container_name: sdc-postgres
+    ports:
+      - 3002:5432
+    environment:
+      POSTGRES_PASSWORD: postgres
+    build:
+      context: .
+      dockerfile: postgres.Dockerfile
