@@ -6,8 +6,8 @@ services:
     ports:
       - 3000:1234
     build:
-      context: .
       dockerfile: node.Dockerfile
+      context: ../../.
   postgres:
     image: sdc-postgres
     container_name: sdc-postgres
