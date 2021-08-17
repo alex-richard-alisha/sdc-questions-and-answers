@@ -2,7 +2,7 @@ import { Pool, PoolClient } from 'pg';
 
 const connection = new Pool({
   user: 'postgres',
-  host: 'localhost', // * This will inevitably change
+  host: 'sdc-postgres', // * localhost if local, container name if Docker
   database: 'questions_and_answers',
   password: 'postgres',
   port: 5432,
