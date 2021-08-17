@@ -5,13 +5,16 @@ export const makeQuery = async (query: string, queryParams: string[]) => {
     const client = await connection.connect();
 
     console.log('making query:', query);
-
-    const { rows } = await client.query(query, [...queryParams]);
-
-    client.release();
-    return rows;
+    try {
+      const { rows } = await client.query(query, [...queryParams]);
+      client.release();
+      return rows;
+    } catch (e) {
+      console.log('erroneous query');
+      console.error(e);
+    }
   } catch (e) {
-    console.log('erroneous query, gitgud scrub');
+    console.log('connection could not be established');
     console.error(e);
     return [];
   }
