@@ -17,14 +17,19 @@ export const makeQuery = async function <T>(
     const client = await connection.connect();
 
     console.log('making query:', query);
-
-    const { rows } = await client.query(query, [...queryParams]);
-
-    client.release();
-    return rows;
+    try {
+      const { rows } = await client.query(query, [...queryParams]);
+      client.release();
+      return rows;
+    } catch (e) {
+      console.log('erroneous query');
+      console.error(e);
+      return [];
+    }
   } catch (e) {
     console.error('Could not make query:', e);
-    throw e;
+    // throw e;
+    return [];
   }
 };
 
@@ -76,13 +81,17 @@ export const postQuestion = async (
   email: string,
   date: number,
 ): Promise<void[]> => {
-  return await makeQuery<void>(queries.questions.create, [
-    product_id,
-    body,
-    name,
-    email,
-    date,
-  ]);
+  try {
+    return await makeQuery<void>(queries.questions.create, [
+      product_id,
+      body,
+      name,
+      email,
+      date,
+    ]);
+  } catch (e) {
+    throw e;
+  }
 };
 
 export const postAnswer = async (

@@ -23,13 +23,13 @@ export default {
 						(SELECT coalesce(jsonb_agg(photo), '[]') FROM
 							(SELECT p.photo_url FROM qa.qa_photos AS p WHERE p.answer_id=a.id)
 						photo)
-						AS photos FROM qa.answers AS a WHERE a.question_id=q.id)
+						AS photos FROM qa.answers AS a WHERE a.question_id=q.id AND a.reported=false)
 					answer) AS
-				answers FROM qa.questions AS q WHERE q.product_id=$1`,
-    answers: `SELECT a.id, a.answer_body, a.answer_date, a.answerer_name, a.answer_helpfulness,
+				answers FROM qa.questions AS q WHERE q.product_id=$1 AND q.reported=false`,
+    answers: `SELECT a.id, a.answer_body, a.answer_date, a.answerer_name, a.answer_helpfulness, a.reported
 								(SELECT coalesce(jsonb_agg(photo), '[]') FROM
 									(SELECT p.photo_url FROM qa.qa_photos AS p WHERE p.answer_id=a.id)
 								photo)
-								AS photos FROM qa.answers AS a WHERE a.question_id=$1`,
+								AS photos FROM qa.answers AS a WHERE a.question_id=$1 AND a.reported=false`,
   },
 };

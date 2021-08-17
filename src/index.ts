@@ -1,4 +1,7 @@
 import express, { Request, Response } from 'express';
+import morgan from 'morgan';
+import fs from 'fs';
+import path from 'path';
 
 import { fixPageAndCount, validateRequestStrings } from './utils';
 import {
@@ -31,8 +34,16 @@ const PORT = 3000;
 
 /* MIDDLEWARE */
 
+let logStream = fs.createWriteStream(
+  path.join(__dirname, '..', 'logs', 'file.log'),
+  {
+    flags: 'a',
+  },
+);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(morgan('common', { stream: logStream }));
 
 /* Questions List */
 app.get('/qa/questions', async (req: Request, res: Response) => {

@@ -1,5 +1,6 @@
 import http from 'k6/http';
-import { sleep } from 'k6';
+import { sleep, check } from 'k6';
+import { Counter } from 'k6/metrics';
 
 import { URL } from 'https://jslib.k6.io/url/1.0.0/index.js';
 

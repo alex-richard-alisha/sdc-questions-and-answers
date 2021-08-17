@@ -34,10 +34,10 @@ DROP SCHEMA IF EXISTS qa;
 CREATE SCHEMA IF NOT EXISTS qa;
 
 CREATE TABLE IF NOT EXISTS qa.questions (
-	id SERIAL PRIMARY KEY,
+	id BIGSERIAL PRIMARY KEY,
 	product_id INT NOT NULL,
 	question_body TEXT NOT NULL,
-	question_date DATETIME NOT NULL DEFAULT NOW(),
+	question_date BIGINT NULL DEFAULT NULL,
 	asker_name TEXT NOT NULL,
 	asker_email TEXT NOT NULL,
 	reported BOOLEAN NOT NULL,
@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS qa.questions (
 -- ---
 
 CREATE TABLE IF NOT EXISTS qa.answers (
-  id SERIAL PRIMARY KEY,
+  id BIGSERIAL PRIMARY KEY,
   question_id INT NOT NULL,
   answer_body TEXT NOT NULL,
   answer_date DATETIME NOT NULL DEFAULT NOW(),
@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS qa.answers (
 -- ---
 
 CREATE TABLE IF NOT EXISTS qa.qa_photos (
-  id SERIAL PRIMARY KEY,
+  id BIGSERIAL PRIMARY KEY,
   answer_id INT NOT NULL,
   photo_url TEXT NOT NULL
 );
