@@ -108,7 +108,13 @@ app.post('/qa/questions', async (req: Request, res: Response) => {
         .send('Error: question body, user name, and email must be strings');
     }
 
-    await postQuestion(product_id, question_body, name, email);
+    await postQuestion(
+      product_id,
+      question_body,
+      name,
+      email,
+      new Date().getTime(),
+    );
 
     return res.status(201).end();
   } catch (e) {
@@ -138,7 +144,13 @@ app.post(
           .send('Error: question body, user name, and email must be strings');
       }
 
-      const result = await postAnswer(question_id, answer_body, name, email);
+      const result = await postAnswer(
+        question_id,
+        answer_body,
+        name,
+        email,
+        new Date().getTime(),
+      );
 
       await insertPhotos(queries.photos.create, result.id, photos);
       res.status(200).send();

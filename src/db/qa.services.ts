@@ -74,12 +74,14 @@ export const postQuestion = async (
   body: string,
   name: string,
   email: string,
+  date: number,
 ): Promise<void[]> => {
   return await makeQuery<void>(queries.questions.create, [
     product_id,
     body,
     name,
     email,
+    date,
   ]);
 };
 
@@ -88,12 +90,14 @@ export const postAnswer = async (
   body: string,
   name: string,
   email: string,
+  date: number,
 ): Promise<AnswerPostResult> => {
   const result = await makeQuery<AnswerPostResult>(queries.answers.create, [
     question_id,
     body,
     name,
     email,
+    date,
   ]);
   return result[0];
 };
