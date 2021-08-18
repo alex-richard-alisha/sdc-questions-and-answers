@@ -65,7 +65,7 @@ export interface GetAnswersParams {
   question_id: string;
 }
 
-export interface CreateAnswersParams {
+export interface CreateAnswerParams {
   question_id: string;
 }
 

@@ -1,16 +1,13 @@
+-- ---
+-- Reset Tables
+-- ---
 
-DROP TABLE IF EXISTS qa.qa_photos;
-DROP TABLE IF EXISTS qa.answers;
+DROP SCHEMA IF EXISTS qa CASCADE;
 
-DROP TABLE IF EXISTS qa.questions;
-
-DROP SCHEMA IF EXISTS qa;
-
-
-CREATE SCHEMA IF NOT EXISTS qa;
+CREATE SCHEMA qa;
 
 CREATE TABLE IF NOT EXISTS qa.questions (
-	id SERIAL PRIMARY KEY,
+	id BIGSERIAL PRIMARY KEY,
 	product_id INT NOT NULL,
 	question_body TEXT NOT NULL,
 	question_date BIGINT NOT NULL,
@@ -21,7 +18,7 @@ CREATE TABLE IF NOT EXISTS qa.questions (
 );
 
 CREATE TABLE IF NOT EXISTS qa.answers (
-  id SERIAL PRIMARY KEY,
+  id BIGSERIAL PRIMARY KEY,
   question_id INT NOT NULL,
   answer_body TEXT NOT NULL,
   answer_date BIGINT NOT NULL,
@@ -41,13 +38,25 @@ CREATE TABLE IF NOT EXISTS qa.qa_photos (
 ALTER TABLE qa.answers ADD FOREIGN KEY (question_id) REFERENCES qa.questions (id) ON DELETE CASCADE;
 ALTER TABLE qa.qa_photos ADD FOREIGN KEY (answer_id) REFERENCES qa.answers (id) ON DELETE CASCADE;
 
-COPY qa.questions (id, product_id, question_body, question_date, asker_name, asker_email, reported, question_helpfulness) FROM '/mnt/d/ProgrammingProjects/sdc-questions-and-answers/data/questions.csv' DELIMITER ',' CSV HEADER;
-COPY qa.answers (id, question_id, answer_body, answer_date, answerer_name, answerer_email, reported, answer_helpfulness) FROM '/mnt/d/ProgrammingProjects/sdc-questions-and-answers/data/answers.csv' DELIMITER ',' CSV HEADER;
-COPY qa.qa_photos(id, answer_id, photo_url) FROM '/mnt/d/ProgrammingProjects/sdc-questions-and-answers/data/answers_photos.csv' DELIMITER ',' CSV HEADER;
+-- ---
+-- Seed Database
+-- ---
+
+COPY qa.questions (id, product_id, question_body, question_date, asker_name, asker_email, reported, question_helpfulness) FROM '{}/questions.csv' DELIMITER ',' CSV HEADER;
+COPY qa.answers (id, question_id, answer_body, answer_date, answerer_name, answerer_email, reported, answer_helpfulness) FROM '{}/answers.csv' DELIMITER ',' CSV HEADER;
+COPY qa.qa_photos(id, answer_id, photo_url) FROM '{}/answers_photos.csv' DELIMITER ',' CSV HEADER;
+
+-- ---
+-- Fix Serialization
+-- ---
 
 SELECT pg_catalog.setval(pg_get_serial_sequence('qa.qa_photos', 'id'), (SELECT MAX(id) FROM qa.qa_photos)+1);
 SELECT pg_catalog.setval(pg_get_serial_sequence('qa.answers', 'id'), (SELECT MAX(id) FROM qa.answers)+1);
 SELECT pg_catalog.setval(pg_get_serial_sequence('qa.questions', 'id'), (SELECT MAX(id) FROM qa.questions)+1);
+
+-- ---
+-- Index Tables
+-- ---
 
 CREATE INDEX idx_product_id ON qa.questions(product_id);
 CREATE INDEX idx_question_id ON qa.answers(question_id);

@@ -1,42 +1,18 @@
-import connection from './index';
+import { makeQuery } from './db/index';
 import {
   QuestionQueryResult,
   AnswersResult,
   AnswerQueryResult,
   QuestionsResult,
-  AnswerPostResult,
-} from 'src/db/queryTypes';
-import { composeQuery } from '../utils';
-import queries from '../db/queries';
-
-export const makeQuery = async function <T>(
-  query: string,
-  queryParams: (string | number | boolean)[],
-): Promise<T[]> {
-  try {
-    const client = await connection.connect();
-
-    console.log('making query:', query);
-    try {
-      const { rows } = await client.query(query, [...queryParams]);
-      client.release();
-      return rows;
-    } catch (e) {
-      console.log('erroneous query');
-      console.error(e);
-      return [];
-    }
-  } catch (e) {
-    console.error('Could not make query:', e);
-    // throw e;
-    return [];
-  }
-};
+  AnswerPostResult
+} from './queryTypes';
+import { addLimitAndOffsetToQuery } from './utils';
+import queries from './db/queries';
 
 export const insertPhotos = async (
   photoQuery: string,
   answer_id: string,
-  urls: string[],
+  urls: string[]
 ): Promise<void> => {
   for (let i = 0; i < urls.length; i++) {
     await makeQuery(photoQuery, [answer_id, urls[i]]);
@@ -46,11 +22,11 @@ export const insertPhotos = async (
 export const getQuestionsByProductId = async (
   product_id: string,
   page: number,
-  count: number,
+  count: number
 ): Promise<QuestionsResult> => {
   const results = await makeQuery<QuestionQueryResult>(
-    composeQuery(queries.aggregates.all, count, page),
-    [product_id],
+    addLimitAndOffsetToQuery(queries.aggregates.all, count, page),
+    [product_id]
   );
 
   return { product_id, results };
@@ -59,18 +35,18 @@ export const getQuestionsByProductId = async (
 export const getAnswersByQuestionId = async (
   question_id: string,
   page: number,
-  count: number,
+  count: number
 ): Promise<AnswersResult> => {
   const results = await makeQuery<AnswerQueryResult>(
-    composeQuery(queries.aggregates.answers, count, page),
-    [question_id],
+    addLimitAndOffsetToQuery(queries.aggregates.answers, count, page),
+    [question_id]
   );
 
   return {
     question: question_id,
     page,
     count,
-    results,
+    results
   };
 };
 
@@ -79,19 +55,15 @@ export const postQuestion = async (
   body: string,
   name: string,
   email: string,
-  date: number,
+  date: number
 ): Promise<void[]> => {
-  try {
-    return await makeQuery<void>(queries.questions.create, [
-      product_id,
-      body,
-      name,
-      email,
-      date,
-    ]);
-  } catch (e) {
-    throw e;
-  }
+  return await makeQuery<void>(queries.questions.create, [
+    product_id,
+    body,
+    name,
+    email,
+    date
+  ]);
 };
 
 export const postAnswer = async (
@@ -99,20 +71,20 @@ export const postAnswer = async (
   body: string,
   name: string,
   email: string,
-  date: number,
+  date: number
 ): Promise<AnswerPostResult> => {
   const result = await makeQuery<AnswerPostResult>(queries.answers.create, [
     question_id,
     body,
     name,
     email,
-    date,
+    date
   ]);
   return result[0];
 };
 
 export const markQuestionHelpful = async (
-  question_id: string,
+  question_id: string
 ): Promise<void> => {
   await makeQuery<string>(queries.questions.markHelpful, [question_id]);
 };
