@@ -1,6 +1,9 @@
 -- ---
 -- Reset Tables
 -- ---
+DROP DATABASE IF EXISTS questions_and_answers;
+
+CREATE DATABASE questions_and_answers;
 
 DROP SCHEMA IF EXISTS qa CASCADE;
 
