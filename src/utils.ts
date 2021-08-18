@@ -22,10 +22,10 @@ export const validateRequestStrings = (...args: string[]): Error | null => {
   return null;
 };
 
-export const composeQuery = (
+export const addLimitAndOffsetToQuery = (
   baseQuery: string,
   count: number,
-  page: number,
+  page: number
 ): string => {
   return `${baseQuery} LIMIT ${count} OFFSET ${(page - 1) * count};`;
 };
@@ -43,6 +43,6 @@ export const fixPageAndCount = (page: string, count: string): PageCount => {
   return {
     fixedPage,
     fixedCount,
-    error,
+    error
   };
 };
