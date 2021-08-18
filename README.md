@@ -20,7 +20,9 @@ Then, run `docker compose build postgres` (the name of the relevant Dockerfile).
 
 After the image is built, then run `docker compose run postgres`.
 
-If a rebuild is required, one must first stop any containers associated with the image in question. Then, those containers must be removed (`docker container rm <container_name>`), and then the image can be removed (`docker image rm <image_name>`). Before a build can be reattempted, the cache should first be cleared (`docker builder prune`)
+If a rebuild is required, one must first stop any containers associated with the image in question. Then, those containers must be removed (`docker container rm <container_name>`), and then the image can be removed (`docker image rm <image_name>`). Before a build can be reattempted, the cache should first be cleared (`docker builder prune`).
+
+After an image is built for both node and postgres (using the approach listed above), run `docker compose up`. This will mount both of the
 
 ### Technologies
 
