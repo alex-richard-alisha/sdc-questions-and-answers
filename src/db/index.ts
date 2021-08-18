@@ -1,10 +1,11 @@
 import { Pool, PoolClient } from 'pg';
+import { password } from '../../config';
 
 const connection = new Pool({
   user: 'postgres',
   host: 'sdc-postgres', // * localhost if local, container name if Docker
   database: 'questions_and_answers',
-  password: 'postgres',
+  password,
   port: 5432,
   max: 50
 });
