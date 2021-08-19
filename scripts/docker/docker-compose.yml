@@ -4,24 +4,29 @@ services:
     image: sdc-node
     container_name: sdc-node
     env_file:
-      - ../../.env
+      - .env
     depends_on:
       - postgres
     ports:
       - 1234:3000
     environment:
-      POSTGRES_USER: "${DB_USER}"
-      POSTGRES_PASSWORD: "${DB_PASSWORD}"
+      DB_USER: "${DB_USER}"
+      DB_PASSWORD: "${DB_PASSWORD}"
+      DB_LOCAL_HOST: "${DB_LOCAL_HOST}"
+      DB_PORT: "${DB_PORT}"
+      DB_HOST: "${DB_HOST}"
+      DB_NAME: "${DB_NAME}"
+      DB_MAX: "${DB_MAX}"
     build:
       context: ../../
       dockerfile: ./scripts/docker/node.Dockerfile
     volumes:
       - ../../:/src
   postgres:
-    image: sdc-postgres
-    container_name: sdc-postgres
+    image: sdc-qa-postgres
+    container_name: sdc-qa-postgres
     env_file:
-      - ../../.env
+      - .env
     ports:
       - 5431:5432
     environment:
