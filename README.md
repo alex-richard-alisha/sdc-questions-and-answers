@@ -22,7 +22,9 @@ After the image is built, then run `docker compose run postgres`.
 
 If a rebuild is required, one must first stop any containers associated with the image in question. Then, those containers must be removed (`docker container rm <container_name>`), and then the image can be removed (`docker image rm <image_name>`). Before a build can be reattempted, the cache should first be cleared (`docker builder prune`).
 
-After an image is built for both node and postgres (using the approach listed above), run `docker compose up`. This will mount both of the
+After an image is built for both node and postgres (using the approach listed above), run `docker compose up`. This will mount all images defined in the compose file.
+
+If you get in too deep, use `docker system prune` to clear things out. Similarly, when faced with too many redundant images, use `docker image prune -a`.
 
 ### Technologies
 

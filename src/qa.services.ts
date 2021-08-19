@@ -25,7 +25,7 @@ export const getQuestionsByProductId = async (
   count: number
 ): Promise<QuestionsResult> => {
   const results = await makeQuery<QuestionQueryResult>(
-    addLimitAndOffsetToQuery(queries.aggregates.all, count, page),
+    addLimitAndOffsetToQuery(queries.aggregates.all, page, count),
     [product_id]
   );
 
@@ -38,7 +38,7 @@ export const getAnswersByQuestionId = async (
   count: number
 ): Promise<AnswersResult> => {
   const results = await makeQuery<AnswerQueryResult>(
-    addLimitAndOffsetToQuery(queries.aggregates.answers, count, page),
+    addLimitAndOffsetToQuery(queries.aggregates.answers, page, count),
     [question_id]
   );
 
