@@ -64,8 +64,8 @@ app.get(
 
       const results = await getQuestionsByProductId(
         product_id,
-        fixedCount,
-        fixedPage
+        fixedPage,
+        fixedCount
       );
 
       return res.status(200).send(results);
