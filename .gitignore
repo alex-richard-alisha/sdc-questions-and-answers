@@ -1,7 +1,6 @@
 node_modules
-/server/config.js
 /data/src
 /coverage
-/config/index.js
 /logs/*
 /scripts/docker/data
+/src/db/config.ts
