@@ -1,13 +1,21 @@
 import { Pool, PoolClient } from 'pg';
-// import config from './config';
+import dotenv from 'dotenv';
+// import process from 'process';
+
+dotenv.config();
+
+const host =
+  process.env.NODE_ENV === 'development'
+    ? process.env.DB_LOCAL_HOST
+    : process.env.DB_HOST;
 
 const connection = new Pool({
-  user: 'postgres',
-  host: 'localhost', // * local=localhost, docker=sdc-postgres
-  database: 'questions_and_answers',
-  password: 'postgres',
-  port: 5432,
-  max: 50
+  user: `${process.env.DB_USER}`,
+  host: `${host}`,
+  database: `${process.env.DB_NAME}`,
+  password: `${process.env.DB_PASSWORD}`,
+  port: parseInt(process.env.DB_PORT as string) || 5432,
+  max: parseInt(process.env.DB_MAX as string) || 50
 });
 
 export const makeQuery = async function <T>(
@@ -18,8 +26,10 @@ export const makeQuery = async function <T>(
     const client = await connection.connect();
 
     console.log('making query:', query);
+    console.log('queryParams:', queryParams);
     try {
       const { rows } = await client.query(query, [...queryParams]);
+      console.log('rows', rows);
       client.release();
       return rows;
     } catch (e) {

@@ -24,8 +24,8 @@ export const validateRequestStrings = (...args: string[]): Error | null => {
 
 export const addLimitAndOffsetToQuery = (
   baseQuery: string,
-  count: number,
-  page: number
+  page: number,
+  count: number
 ): string => {
   return `${baseQuery} LIMIT ${count} OFFSET ${(page - 1) * count};`;
 };

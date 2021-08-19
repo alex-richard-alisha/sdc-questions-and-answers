@@ -5,9 +5,10 @@
   "main": "server/index.js",
   "scripts": {
     "test": "jest",
-    "start:dev": "ts-node-dev src/",
+    "start:dev": "cross-env NODE_ENV=development npm run server:dev",
+    "server:dev": "ts-node-dev src/",
     "start": "ts-node src/",
-    "seed": "sudo su postgres -c 'node ./scripts/buildDB.js | psql -d questions_and_answers -a'",
+    "seed": "./scripts/createDB.bash && sudo su postgres -c 'node ./scripts/buildDB.js | psql -d questions_and_answers -a'",
     "seed:prod": "cross-env NODE_ENV=production npm run seed"
   },
   "keywords": [],
@@ -33,6 +34,7 @@
   },
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "pg": "^8.7.1"
   }

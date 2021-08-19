@@ -4,3 +4,4 @@ node_modules
 /logs/*
 /scripts/docker/data
 /src/db/config.ts
+.env
