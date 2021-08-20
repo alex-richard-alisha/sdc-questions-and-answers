@@ -4,13 +4,14 @@
   "description": "This is the beginning of an epic tale about databases.",
   "main": "server/index.js",
   "scripts": {
-    "test": "jest",
+		"test": "jest",
     "start:dev": "cross-env NODE_ENV=development npm run server:dev",
     "server:dev": "ts-node-dev src/",
     "start": "cross-env NODE_ENV=production && npm run server",
     "server": "ts-node src/",
-    "seed": "./scripts/createDB.bash && sudo su postgres -c 'node ./scripts/buildDB.js | psql -d questions_and_answers -a'",
-    "seed:prod": "cross-env NODE_ENV=production npm run seed"
+    "seed": "sudo su postgres -c 'node ./scripts/buildDB.js | psql -d questions_and_answers -a'",
+    "seed:prod": "sudo su postgres -c 'node ./scripts/buildDB.js production | psql -d questions_and_answers -a'",
+    "docker": "docker tag sdc-node adbarclay92/sdc-node &&\tdocker push adbarclay92/sdc-node"
   },
   "keywords": [],
   "author": "",

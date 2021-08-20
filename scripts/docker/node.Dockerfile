@@ -4,6 +4,8 @@ WORKDIR /src
 
 COPY . /src
 
+COPY ./scripts/docker/.env /src
+
 RUN npm install
 
 EXPOSE 3000

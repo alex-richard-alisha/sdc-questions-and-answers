@@ -1,8 +1,9 @@
 import { Pool, PoolClient } from 'pg';
 import dotenv from 'dotenv';
-// import process from 'process';
 
 dotenv.config();
+
+console.log('process.env:', process.env);
 
 const host =
   process.env.NODE_ENV === 'development'

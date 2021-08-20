@@ -1,6 +1,0 @@
-__tests__
-data/src
-extras
-scripts/docker
-.env
-../../.env
