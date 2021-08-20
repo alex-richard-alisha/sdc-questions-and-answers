@@ -1,11 +1,11 @@
 -- ---
 -- Reset Tables
 -- ---
--- DROP DATABASE IF EXISTS questions_and_answers;
+DROP DATABASE IF EXISTS questions_and_answers;
 
--- CREATE DATABASE questions_and_answers;
+CREATE DATABASE questions_and_answers;
 
--- \c questions_and_answers;
+\c questions_and_answers;
 
 DROP SCHEMA IF EXISTS qa CASCADE;
 
@@ -47,9 +47,9 @@ ALTER TABLE qa.qa_photos ADD FOREIGN KEY (answer_id) REFERENCES qa.answers (id) 
 -- Seed Database
 -- ---
 
-COPY qa.questions (id, product_id, question_body, question_date, asker_name, asker_email, reported, question_helpfulness) FROM '{}/questions.csv' DELIMITER ',' CSV HEADER;
-COPY qa.answers (id, question_id, answer_body, answer_date, answerer_name, answerer_email, reported, answer_helpfulness) FROM '{}/answers.csv' DELIMITER ',' CSV HEADER;
-COPY qa.qa_photos(id, answer_id, photo_url) FROM '{}/answers_photos.csv' DELIMITER ',' CSV HEADER;
+COPY qa.questions (id, product_id, question_body, question_date, asker_name, asker_email, reported, question_helpfulness) FROM '/seed/questions.csv' DELIMITER ',' CSV HEADER;
+COPY qa.answers (id, question_id, answer_body, answer_date, answerer_name, answerer_email, reported, answer_helpfulness) FROM '/seed/answers.csv' DELIMITER ',' CSV HEADER;
+COPY qa.qa_photos(id, answer_id, photo_url) FROM '/seed/answers_photos.csv' DELIMITER ',' CSV HEADER;
 
 -- ---
 -- Fix Serialization
