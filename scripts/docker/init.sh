@@ -11,6 +11,6 @@ docker pull adbarclay92/sdc-node:latest # pull latest image
 
 ## PULL COMPOSE YML
 
-wget https://raw.githubusercontent.com/alex-richard-alisha/sdc-questions-and-answers/adb/config/docker/scripts/docker/docker-compose.yml # pull compose YML
+wget https://raw.githubusercontent.com/alex-richard-alisha/sdc-questions-and-answers/master/scripts/docker/docker-compose.yml # pull compose YML
 sudo docker-compose up -d node # run container
 docker-compose ps # check running
