@@ -3,8 +3,6 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-console.log('process.env:', process.env);
-
 const host =
   process.env.NODE_ENV === 'development'
     ? process.env.DB_LOCAL_HOST
@@ -26,15 +24,14 @@ export const makeQuery = async function <T>(
   try {
     const client = await connection.connect();
 
-    console.log('making query:', query);
-    console.log('queryParams:', queryParams);
+    console.debug('making query:', query);
     try {
       const { rows } = await client.query(query, [...queryParams]);
-      console.log('rows', rows);
+      console.debug('Query Result:', rows);
       client.release();
       return rows;
     } catch (e) {
-      console.log('erroneous query');
+      console.debug('Error: Erroneous Query');
       console.error(e);
       throw e;
     }

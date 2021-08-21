@@ -310,6 +310,7 @@ const init = async () => {
     }
   );
 
+	console.debug('process.env:',process.env);
   start();
 };
 

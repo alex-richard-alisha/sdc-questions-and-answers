@@ -4,7 +4,7 @@
   "description": "This is the beginning of an epic tale about databases.",
   "main": "server/index.js",
   "scripts": {
-		"test": "jest",
+    "test": "jest",
     "start:dev": "cross-env NODE_ENV=development npm run server:dev",
     "server:dev": "ts-node-dev src/",
     "start": "cross-env NODE_ENV=production && npm run server",

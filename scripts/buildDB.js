@@ -7,10 +7,6 @@ const inFilePath = path.join(__dirname, '..', 'src', 'db', 'buildTables.sql');
 
 let dataPath = path.join(__dirname, '..', 'data');
 
-// if (process.env.NODE_ENV === 'production') {
-//   dataPath = path.join(__dirname, '..', 'data', 'src');
-// }
-
 if (process.argv[2] === 'production') {
   dataPath = path.join(__dirname, '..', 'data', 'src');
 }
