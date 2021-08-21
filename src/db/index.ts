@@ -17,15 +17,6 @@ const connection = new Pool({
   max: parseInt(process.env.DB_MAX as string) || 50
 });
 
-// connection
-//   .connect()
-//   .then(() => {
-//     console.log('Connected to db');
-//   })
-//   .catch((err) => {
-//     console.error('Wrong things:', err);
-//   });
-
 export const makeQuery = async function <T>(
   query: string,
   queryParams: (string | number | boolean)[]

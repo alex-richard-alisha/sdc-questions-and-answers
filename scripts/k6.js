@@ -2,17 +2,10 @@ import http from 'k6/http';
 import { sleep, check } from 'k6';
 // import { Counter } from 'k6/metrics';
 
-// import GetQuestions from '../__tests__/data/GetQuestions';
-
 export const options = {
   stages: [
     { target: 100, duration: '5s' }
-    // { target: 15, duration: '10s' },
-    // { target: 0, duration: '10s' },
   ]
-  // thresholds: {
-  //   requests: ['count < 100'],
-  // },
 };
 
 export default function () {
