@@ -30,8 +30,6 @@ import {
   ReportQuestionParams
 } from './queryTypes';
 
-import cors from 'cors';
-
 const app = express();
 
 const PORT = 3000;
@@ -44,7 +42,6 @@ const start = () => {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
   app.use(morgan('common', { stream: logStream }));
-  // app.use(cors());
 
   /* Questions List */
   app.get(

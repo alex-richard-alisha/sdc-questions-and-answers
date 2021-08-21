@@ -1,35 +1,10 @@
 version: '3.9'
 services:
   node:
-    image: sdc-node
+    image: adbarclay92/sdc-node
     container_name: sdc-node
-    # env_file:
-    #   - .env
-    # depends_on:
-    #   - postgres
     ports:
       - 1234:3000
-    # environment:
-    #   DB_USER: "${DB_USER}"
-    #   DB_PASSWORD: "${DB_PASSWORD}"
-    #   DB_LOCAL_HOST: "${DB_LOCAL_HOST}"
-    #   DB_PORT: "${DB_PORT}"
-    #   DB_HOST: "${DB_HOST}"
-    #   DB_NAME: "${DB_NAME}"
-    #   DB_MAX: "${DB_MAX}"
     build:
       context: ../../
       dockerfile: ./scripts/docker/node.Dockerfile
-  # postgres:
-  #   image: sdc-qa-postgres
-  #   container_name: sdc-qa-postgres
-  #   env_file:
-  #     - .env
-  #   ports:
-  #     - 5431:5432
-  #   environment:
-  #     POSTGRES_USER: "${DB_USER}"
-  #     POSTGRES_PASSWORD: "${DB_PASSWORD}"
-  #   build:
-  #     context: ../../
-  #     dockerfile: ./scripts/docker/postgres.Dockerfile
