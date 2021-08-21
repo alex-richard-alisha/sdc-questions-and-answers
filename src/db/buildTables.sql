@@ -7,6 +7,8 @@
 
 -- \c questions_and_answers;
 
+SET ROLE qa_user;
+
 DROP SCHEMA IF EXISTS qa CASCADE;
 
 CREATE SCHEMA qa;
