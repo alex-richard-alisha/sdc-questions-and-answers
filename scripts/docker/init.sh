@@ -1,4 +1,3 @@
-
 ## INSTALL DOCKER FOR LOGIN AND PULL
 
 sudo apt update
@@ -16,7 +15,7 @@ sudo chmod +x /usr/local/bin/docker-compose # set correct permissions to make `d
 
 ## PULL IMAGE
 
-$sudo chmod 666 /var/run/docker.sock # may be optional
+sudo chmod 666 /var/run/docker.sock # may be optional
 docker login # login to docker
 docker pull adbarclay92/sdc-node:latest # pull latest image
 
