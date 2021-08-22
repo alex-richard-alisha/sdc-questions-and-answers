@@ -43,6 +43,19 @@ const start = () => {
   app.use(express.urlencoded({ extended: true }));
   app.use(morgan('common', { stream: logStream }));
 
+  app.get('/loaderio-14644e982def730ef0911cef089fc810.txt', (req, res) => {
+    try {
+      res
+        .status(200)
+        .sendFile(
+          '../extras/loaderio-loaderio-14644e982def730ef0911cef089fc810.txt'
+        );
+    } catch (e) {
+      console.error(e);
+      res.status(500).send(e);
+    }
+  });
+
   /* Questions List */
   app.get(
     '/qa/questions',
@@ -310,7 +323,7 @@ const init = async () => {
     }
   );
 
-	console.debug('process.env:',process.env);
+  console.debug('process.env:', process.env);
   start();
 };
 
