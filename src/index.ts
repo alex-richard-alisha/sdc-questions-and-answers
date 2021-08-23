@@ -43,13 +43,15 @@ const start = () => {
   app.use(express.urlencoded({ extended: true }));
   app.use(morgan('common', { stream: logStream }));
 
-  app.get('/loaderio-14644e982def730ef0911cef089fc810.txt', (req, res) => {
+  app.get('/:fileName', (req, res) => {
     try {
+      const filePath = path.join(__dirname, `../public/${req.params.fileName}`);
       res
+        .set({
+          'Content-Disposition': 'attachment; filename="req.params.name"'
+        })
         .status(200)
-        .sendFile(
-          '../extras/loaderio-loaderio-14644e982def730ef0911cef089fc810.txt'
-        );
+        .sendFile(filePath);
     } catch (e) {
       console.error(e);
       res.status(500).send(e);
