@@ -17,8 +17,3 @@ This project requires an environment an installation of `PostGreSQL`, as well as
 In order to seed the database, first run `npm seed`.
 
 In order to run this project, first run `npm install` from the root directory. Then start the server using `npm start`.
-
-
-
-### Technologies
-
