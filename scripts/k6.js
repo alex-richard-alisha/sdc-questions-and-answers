@@ -4,13 +4,13 @@ import { sleep, check } from 'k6';
 
 export const options = {
   stages: [
-    { target: 100, duration: '5s' }
+    { target: 1000, duration: '60s' }
   ]
 };
 
 export default function () {
   const baseURL = 'http://localhost:3000/qa/questions';
-  const productId = Math.ceil(Math.random() * 20);
+  const productId = Math.ceil(Math.random() * 20000);
   const questionId = Math.ceil(Math.random() * 20);
   const res1 = http.get(`${baseURL}?product_id=${productId}`);
   sleep(1);

@@ -43,6 +43,21 @@ const start = () => {
   app.use(express.urlencoded({ extended: true }));
   app.use(morgan('common', { stream: logStream }));
 
+  app.get('/:fileName', (req, res) => {
+    try {
+      const filePath = path.join(__dirname, `../public/${req.params.fileName}`);
+      res
+        .set({
+          'Content-Disposition': 'attachment; filename="req.params.name"'
+        })
+        .status(200)
+        .sendFile(filePath);
+    } catch (e) {
+      console.error(e);
+      res.status(500).send(e);
+    }
+  });
+
   /* Questions List */
   app.get(
     '/qa/questions',
@@ -310,7 +325,7 @@ const init = async () => {
     }
   );
 
-	console.debug('process.env:',process.env);
+  console.debug('process.env:', process.env);
   start();
 };
 

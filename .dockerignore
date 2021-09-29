@@ -3,3 +3,5 @@ data
 extras
 logs
 node_modules
+*.pem
+.env
