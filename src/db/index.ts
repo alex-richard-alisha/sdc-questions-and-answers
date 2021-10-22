@@ -3,10 +3,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const host =
-  process.env.NODE_ENV === 'development'
-    ? process.env.DB_LOCAL_HOST
-    : process.env.DB_HOST;
+const host = process.env.DB_HOST || 'localhost';
 
 const connection = new Pool({
   user: `${process.env.DB_USER}`,

@@ -11,7 +11,7 @@
     "server": "ts-node src/",
     "seed": "sudo su postgres -c 'node ./scripts/buildDB.js | psql -d questions_and_answers -a'",
     "seed:prod": "sudo su postgres -c 'node ./scripts/buildDB.js production | psql -d questions_and_answers -a'",
-    "docker": "docker tag sdc-node adbarclay92/sdc-node &&\tdocker push adbarclay92/sdc-node"
+    "docker": "docker tag sdc-node adbarclay92/sdc-node && docker push adbarclay92/sdc-node"
   },
   "keywords": [],
   "author": "",
